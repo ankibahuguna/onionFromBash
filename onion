@@ -1,0 +1,9 @@
+#!/bin/bash
+rss="https://www.theonion.com/rss";
+feed=$(curl -s "$rss");
+count=$(echo $feed | xmllint --xpath "count(//rss/channel/item)" -);
+(for (( ind=1; ind<=$count; ind++ ));
+do 
+echo $feed | xmllint --xpath "string((//rss/channel/item/link)[$ind])" - ; 
+done;) | shuf -n 1 | xargs xdg-open
+
